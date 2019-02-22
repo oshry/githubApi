@@ -1,12 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ToDoItem from "../container/SearchContainer.jsx";
+import Li from "../container/LiContainer.jsx";
 
 const ResultsList = ({ list }) => (
     <div className="my-list">
         <ul>
-            {list.map((item) => {
-                return <li>{item.html_url}</li>
+            {list.map((item, key) => {
+                    return <Li
+                        key={key}
+                        item={item.login}
+                    />
+
             })
             }
         </ul>

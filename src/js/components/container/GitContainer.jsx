@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 const axios = require('axios');
-import Input from "../presentational/Input.jsx";
-import Results from "../presentational/ResultsList.jsx";
-class SearchContainer extends Component {
+import Git from "../presentational/Git.jsx";
+
+class GitContainer extends Component {
     constructor() {
         super();
         this.state = {
@@ -12,15 +12,39 @@ class SearchContainer extends Component {
         };
     }
     buildResults = (github) => {
+        console.log(github);
         this.setState(({list, current }) => ({
-            list: [
-                {
-                    github
-                }
-            ],
+            list: github
+            ,
             current: ''
         }));
 
+    }
+    compareLoginUp = (a,b) => {
+        const A = a.login.toUpperCase();
+        const B = b.login.toUpperCase();
+        if(A < B) { return -1; }
+        if(A > B) { return 1; }
+        return 0;
+    }
+    compareLoginDown = (a,b) => {
+        const A = a.login.toUpperCase();
+        const B = b.login.toUpperCase();
+        if(A > B) { return -1; }
+        if(A < B) { return 1; }
+        return 0;
+    }
+    sortField = (direction) => {
+        let field = event.target.classList[0];
+        let currentState = this.state.list;
+        if(direction === 'up'){
+            let sorted = currentState.sort(this.compareLoginUp);
+            this.buildResults(sorted);
+        }else{
+            console.log('down');
+            let sorted = currentState.sort(this.compareLoginDown);
+            this.buildResults(sorted);
+        }
     }
     searchGithub = (q) => {
         axios.get(`https://api.github.com/search/users?q=${q}`)
@@ -53,21 +77,20 @@ class SearchContainer extends Component {
         }
     };
     render() {
-        const { current } = this.state;
+        const { current, list } = this.state;
         return (
-            <form id="article-form">
-                <Input
+            <div id="github">
+                <Git
                     type="text"
                     id="current"
+                    list={list}
                     value={current}
                     handleChange={this.handleChange}
                     handleKeyPress={this.handleKeyPress}
+                    handleSort = {this.sortField}
                 />
-                <Results
-                    list={this.state.list}
-                />
-            </form>
+            </div>
         );
     }
 }
-export default SearchContainer;
+export default GitContainer;

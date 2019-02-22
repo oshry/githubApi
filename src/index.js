@@ -1,10 +1,10 @@
 import ReactDOM from "react-dom";
 import React from "react";
-import SearchContainer from "./js/components/container/SearchContainer.jsx";
-import ResultsContainer from './js/components/container/ResultsContainer.jsx';
+import GitContainer from "./js/components/container/GitContainer.jsx";
+// import ListItemContainer from './js/components/container/ListItemContainer.jsx';
 
 const search = document.getElementById("search");
-const results = document.getElementById("results");
+// const results = document.getElementById("results");
 
-search ? ReactDOM.render(<SearchContainer />, search) : false;
-results ? ReactDOM.render(<ResultsContainer />, results) : false;
+search ? ReactDOM.render(<GitContainer />, search) : false;
+// results ? ReactDOM.render(<ListItemContainer />, results) : false;
